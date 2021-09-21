@@ -112,15 +112,37 @@ fun BookcaseScreen(){
         fontSize = 20.sp
     )
 }
+@Composable
+fun ProfileAppBar(){
+    TopAppBar(elevation = 10.dp,
+        backgroundColor = Color.White,
+        modifier = Modifier
+            .height(56.dp)
+            .fillMaxWidth()) {
+        Row(verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp)) {
+            Image(painter = painterResource(id = R.drawable.ic_menu), contentDescription = null,
+                contentScale = ContentScale.Fit)
+            Text(text = "프로필",fontSize = 16.sp,fontWeight = FontWeight.Bold)
+            Image(painter = painterResource(id = R.drawable.ic_edit), contentDescription = null,
+                contentScale = ContentScale.Fit)
 
+
+        }
+    }
+
+}
 @Composable
 fun ProfileScreen(){
-    Text(
-        text = Screen.Profile.title,
-        fontWeight = FontWeight.Bold,
-        color = MaterialTheme.colors.primary,
-        fontSize = 20.sp
-    )
+    Scaffold(topBar ={ ProfileAppBar()} ) {
+        Column(modifier = Modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally) {
+
+        }
+    }
 }
 @Composable
 fun RandomUserListView(randomUsers:List<RandomUser>){
@@ -136,14 +158,29 @@ fun RandomUserListView(randomUsers:List<RandomUser>){
 fun RandomUserView(randomuser:RandomUser){
     val typography:Typography= MaterialTheme.typography
 
-    Row(modifier = Modifier.fillMaxWidth()){
-        ProfileImg(imgUrl = randomuser.ProfileImg)
-        Column() {
-            Text(text = randomuser.name, style = typography.body2)
-            Text(text = randomuser.recentmsg, style = typography.h1)
-            
+    Column() {
+        Row(modifier = Modifier
+            .height(74.dp)
+            .padding(20.dp, 10.dp)
+            .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically){
+            ProfileImg(imgUrl = randomuser.ProfileImg)
+            Column {
+                Row(horizontalArrangement = Arrangement.SpaceBetween,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(10.dp, 0.dp)){
+                    Text(text = randomuser.name, style = typography.body2)
+                    Text(text = randomuser.timestamp, style = typography.h2)
+                }
+
+                Text(text = randomuser.recentmsg, style = typography.h1
+                    ,modifier = Modifier.padding(10.dp,2.dp))
+            }
         }
-        Text(text = randomuser.timestamp, style = typography.h2)
+
+        Divider(color = Color.LightGray, thickness = 0.5.dp,
+        modifier = Modifier.padding(20.dp,0.dp))
 
     }
 }
@@ -154,7 +191,7 @@ fun ProfileImg(imgUrl:String, modifier: Modifier=Modifier){
     val bitmap : MutableState<Bitmap?> = mutableStateOf(null)
     val imagemodifier=
         modifier
-            .size(42.dp, 42.dp)
+            .size(47.dp, 47.dp)
             .clip(RoundedCornerShape(10.dp))
 
     Glide.with(LocalContext.current)
